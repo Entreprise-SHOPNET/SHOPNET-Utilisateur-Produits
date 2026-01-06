@@ -1,0 +1,386 @@
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOPNET Admin – Dashboard Complet</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="dashboard-unique.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <span></span> SHOPNET
+        </div>
+        <nav>
+            <ul>
+                <li class="active"><a href="#" data-section="utilisateurs"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                <li><a href="#" data-section="produits"><i class="fas fa-boxes"></i> Produits</a></li>
+                <li><a href="#" data-section="commandes"><i class="fas fa-receipt"></i> Commandes & Paiements</a></li>
+                <li><a href="#" data-section="activites"><i class="fas fa-chart-line"></i> Activités & Logs</a></li>
+                <li><a href="#" data-section="admins"><i class="fas fa-user-shield"></i> Admins</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="version">Version 2.0.1</div>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main-content">
+        <!-- Section Utilisateurs -->
+        <section class="section active" id="section-utilisateurs">
+            <header>
+                <h1>Dashboard Utilisateurs</h1>
+                <p>Bienvenue sur votre tableau de bord SHOPNET Admin</p>
+            </header>
+
+            <!-- ======= STATISTIQUES ======= -->
+            <section class="stats-cards">
+                <!-- Nombre total d'utilisateurs -->
+                <div class="card">
+                    <h2>Nombre total d'utilisateurs</h2>
+                    <span id="total-users">0</span>
+                </div>
+
+                <!-- Nouveaux utilisateurs -->
+                <div class="card">
+                    <h2>Nouveaux utilisateurs</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="new-users-today">0</span>
+                        <span class="stat-label">aujourd'hui</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="new-users-week">0</span>
+                        <span class="stat-label">cette semaine</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="new-users-month">0</span>
+                        <span class="stat-label">ce mois</span>
+                    </div>
+                </div>
+
+                <!-- Utilisateurs actifs -->
+                <div class="card">
+                    <h2>Utilisateurs actifs</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="daily-active">0</span>
+                        <span class="stat-label">daily</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="monthly-active">0</span>
+                        <span class="stat-label">monthly</span>
+                    </div>
+                </div>
+
+                <!-- Nombre de connexions -->
+                <div class="card">
+                    <h2>Nombre de connexions</h2>
+                    <span id="total-connections">0</span>
+                </div>
+            </section>
+
+            <!-- ======= ACTIVITÉ PAR VILLE OU PAYS ======= -->
+            <section class="activity-section">
+                <h2>Activité par ville ou pays</h2>
+                <table id="activity-table">
+                    <thead>
+                        <tr>
+                            <th>Ville / Pays</th>
+                            <th>Nombre d'utilisateurs</th>
+                            <th>Connexions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="loading">
+                            <td colspan="3" style="text-align: center; padding: 40px;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p style="margin-top: 10px;">Chargement des données...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- ======= CROISSANCE DES UTILISATEURS (GRAPHIQUE) ======= -->
+            <section class="growth-section">
+                <h2>Croissance des utilisateurs</h2>
+                <canvas id="growth-chart"></canvas>
+            </section>
+        </section>
+
+        <!-- Section Produits -->
+        <section class="section" id="section-produits">
+            <header>
+                <h1>Dashboard Produits</h1>
+                <p>Contrôle tout ce que les vendeurs publient</p>
+            </header>
+
+            <!-- ================= STATS CARDS ================= -->
+            <section class="stats-cards">
+                <div class="card">
+                    <h2>Total Produits</h2>
+                    <span id="total-products">0</span>
+                </div>
+
+                <div class="card">
+                    <h2>Produits ajoutés aujourd'hui</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="products-today">0</span>
+                        <span class="stat-label">produits</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="new-vendors-today">0</span>
+                        <span class="stat-label">nouveaux vendeurs</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Produits supprimés</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="products-deleted">0</span>
+                        <span class="stat-label">ce mois</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="products-blocked">0</span>
+                        <span class="stat-label">produits bloqués</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Catégories actives</h2>
+                    <span id="active-categories">0</span>
+                </div>
+            </section>
+
+            <!-- ================= CHARTS ================= -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h2>Produits les plus vus</h2>
+                    <canvas id="most-viewed-chart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h2>Catégories les plus utilisées</h2>
+                    <canvas id="categories-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- ================= TOP VENDEURS ================= -->
+            <section class="activity-section">
+                <h2>Top vendeurs actifs</h2>
+                <table id="top-sellers-table">
+                    <thead>
+                        <tr>
+                            <th>Vendeur</th>
+                            <th>Produits publiés</th>
+                            <th>Vues totales</th>
+                            <th>Note moyenne</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="loading">
+                            <td colspan="4" style="text-align: center; padding: 40px;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p style="margin-top: 10px;">Chargement des données...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </section>
+
+        <!-- Section Commandes & Paiements -->
+        <section class="section" id="section-commandes">
+            <header>
+                <h1>Dashboard Commandes & Paiements</h1>
+                <p>Suivez toutes les transactions et revenus générés par SHOPNET</p>
+                <button id="refresh-btn" class="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Rafraîchir
+                </button>
+            </header>
+
+            <!-- ======= STATISTIQUES ======= -->
+            <section class="stats-cards">
+                <!-- Nombre total de commandes -->
+                <div class="card">
+                    <h2>Nombre total de commandes</h2>
+                    <span id="total-orders">0</span>
+                </div>
+
+                <!-- Commandes payées -->
+                <div class="card">
+                    <h2>Commandes payées</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="paid-orders">0</span>
+                        <span class="stat-label">total payé</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="orders-percentage">100%</span>
+                        <span class="stat-label">taux de paiement</span>
+                    </div>
+                </div>
+
+                <!-- Montant total -->
+                <div class="card">
+                    <h2>Montant total</h2>
+                    <div class="sub-card">
+                        <span class="stat-number" id="total-amount">$0.00</span>
+                        <span class="stat-label">montant total</span>
+                    </div>
+                    <div class="sub-card">
+                        <span class="stat-number" id="paid-amount">$0.00</span>
+                        <span class="stat-label">montant payé</span>
+                    </div>
+                </div>
+
+                <!-- Statistiques moyennes -->
+                <div class="card">
+                    <h2>Panier moyen</h2>
+                    <span id="average-order">$0.00</span>
+                </div>
+            </section>
+
+            <!-- ======= RÉPARTITION DES COMMANDES ======= -->
+            <section class="activity-section">
+                <h2>Statistiques détaillées</h2>
+                <table id="detailed-stats-table">
+                    <thead>
+                        <tr>
+                            <th>Métrique</th>
+                            <th>Valeur</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailed-stats-body">
+                        <tr class="loading">
+                            <td colspan="3" style="text-align: center; padding: 40px;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p style="margin-top: 10px;">Chargement des données...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Dernière mise à jour -->
+            <div class="last-update">
+                <i class="fas fa-clock"></i>
+                <span id="last-update-time">Non mis à jour</span>
+            </div>
+        </section>
+
+        <!-- Section Activités & Logs -->
+        <section class="section" id="section-activites">
+            <header>
+                <h1>Activités & Logs</h1>
+                <p>Suivi des activités système et des logs d'administration</p>
+            </header>
+
+            <div class="activity-section">
+                <h2>Logs récents</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Heure</th>
+                            <th>Action</th>
+                            <th>Utilisateur</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-01-15 14:30</td>
+                            <td>Connexion admin</td>
+                            <td>admin@shopnet.com</td>
+                            <td><span style="color: #4CAF50;">Réussi</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:25</td>
+                            <td>Modification produit</td>
+                            <td>vendor123</td>
+                            <td><span style="color: #4CAF50;">Réussi</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:20</td>
+                            <td>Paiement traité</td>
+                            <td>user456</td>
+                            <td><span style="color: #4CAF50;">Réussi</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:15</td>
+                            <td>Tentative de connexion</td>
+                            <td>unknown@email.com</td>
+                            <td><span style="color: #FF5722;">Échoué</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Admins -->
+        <section class="section" id="section-admins">
+            <header>
+                <h1>Gestion des Administrateurs</h1>
+                <p>Gérez les accès et permissions des administrateurs</p>
+            </header>
+
+            <div class="activity-section">
+                <h2>Liste des administrateurs</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Dernière connexion</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Admin Principal</td>
+                            <td>admin@shopnet.com</td>
+                            <td>Super Admin</td>
+                            <td>2024-01-15 14:30</td>
+                            <td><span style="color: #4CAF50;">Actif</span></td>
+                        </tr>
+                        <tr>
+                            <td>Support Technique</td>
+                            <td>support@shopnet.com</td>
+                            <td>Support</td>
+                            <td>2024-01-15 13:45</td>
+                            <td><span style="color: #4CAF50;">Actif</span></td>
+                        </tr>
+                        <tr>
+                            <td>Modérateur</td>
+                            <td>mod@shopnet.com</td>
+                            <td>Modération</td>
+                            <td>2024-01-14 10:20</td>
+                            <td><span style="color: #FFC107;">Inactif</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="dashboard-unique.js"></script>
+</body>
+</html>
